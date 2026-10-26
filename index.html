@@ -408,7 +408,7 @@ const query=searchEl.value.trim().toLowerCase();
 
 const rows=materials.filter(m=>m[0]===current&&m.slice(1,5).join(" ").toLowerCase().includes(query));
 
-document.getElementById("count").textContent=Menampilkan ${rows.length} dari 5 materi untuk topik ini.;
+document.getElementById("count").textContent=`Menampilkan ${rows.length} dari 5 materi untuk topik ini.`;
 
 materialsEl.innerHTML=rows.length?rows.map((m,i)=>`
 
@@ -436,8 +436,7 @@ function renderQuiz(){
 
 const qs=quizzes[current];
 
-document.getElementById("quizIntro").textContent=Quiz ${topics.find(t=>t.id===current).name}: ${qs.length} pertanyaan khusus topik ini.;
-
+document.getElementById("quizIntro").textContent=`Quiz ${topics.find(t=>t.id===current).name}: ${qs.length} pertanyaan khusus topik ini.`;
 document.getElementById("score").textContent="";
 
 document.getElementById("quizArea").innerHTML=qs.map((q,i)=>`
@@ -460,10 +459,9 @@ const qs=quizzes[current];let score=0,answered=0;
 
 qs.forEach((q,i)=>{
 
-const box=document.querySelector([data-q="${i}"]);
+const box=document.querySelector(`[data-q="${i}"]`);
 
-const picked=box.querySelector(input[name="q${i}"]:checked);
-
+const picked=box.querySelector(`input[name="q${i}"]:checked`);
 const fb=box.querySelector(".feedback");fb.hidden=false;
 
 if(!picked){fb.textContent="Pilih jawaban terlebih dahulu.";fb.style.color="#93617b";return;}
