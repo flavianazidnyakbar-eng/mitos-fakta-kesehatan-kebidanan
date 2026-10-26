@@ -12,87 +12,71 @@
 
 <style>
 
-* { box-sizing: border-box; }
+:root{--pink:#d94683;--soft:#fff0f6;--purple:#8156a8;--ink:#493747;--white:#fff}
 
-body {
+*{box-sizing:border-box}
 
-  margin: 0;
+body{margin:0;font-family:Arial,sans-serif;background:#fff7fa;color:var(--ink);line-height:1.65}
 
-  font-family: Arial, sans-serif;
+header{background:linear-gradient(135deg,#e85b99,#9869c5);color:white;text-align:center;padding:35px 18px}
 
-  background: #fff1f6;
+header h1{margin:0;font-size:clamp(25px,5vw,38px)}
 
-  color: #35234d;
+header p{margin:8px 0 0}
 
-}
+main{max-width:1000px;margin:auto;padding:20px 15px}
 
-header {
+.panel,.card{background:white;border:1px solid #f3dce8;border-radius:18px;padding:20px;margin-bottom:18px;box-shadow:0 5px 18px #7c3d5710}
 
-  background: linear-gradient(135deg,#f45d91,#dca9ff);
+h2{font-size:21px;margin:0 0 12px}
 
-  color: white;
+.topics{display:grid;grid-template-columns:repeat(auto-fit,minmax(135px,1fr));gap:9px}
 
-  text-align: center;
+button,input,select{font:inherit}
 
-  padding: 30px 15px;
+.topic,.action{border:0;border-radius:12px;padding:12px;background:#f9e8f1;color:#653b57;cursor:pointer}
 
-  border-radius: 0 0 25px 25px;
+.topic.active,.action{background:var(--pink);color:white}
 
-}
+.topic:hover,.action:hover{filter:brightness(.96)}
 
-header h1 { margin-bottom: 8px; }
+input,select{width:100%;padding:12px;border:1px solid #e9ccdc;border-radius:11px;background:white;color:var(--ink)}
 
-main { max-width: 800px; margin: 25px auto; padding: 0 15px; }
+#search{margin:10px 0 16px}
 
-.box {
+.meta{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
 
-  background: white;
+.tag{display:inline-block;background:#fce4ef;color:#a32860;border-radius:30px;padding:4px 10px;font-size:12px;font-weight:bold}
 
-  border-radius: 18px;
+.tag.fact{background:#e4f7eb;color:#247344}
 
-  padding: 20px;
+.card h3{margin:10px 0;font-size:18px}
 
-  margin-bottom: 18px;
+.card p{margin:8px 0}
 
-  box-shadow: 0 5px 18px #d9a8c533;
+.card details{margin-top:12px;background:#fff7fa;padding:12px;border-radius:12px}
 
-}
+.card summary{cursor:pointer;color:#a32860;font-weight:bold}
 
-.topics { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.small{font-size:13px;color:#806d7a}
 
-button {
+a{color:#a32860}
 
-  border: none;
+#quizArea{margin-top:12px}
 
-  padding: 13px;
+.question{border-top:1px solid #f1dce7;padding:14px 0}
 
-  border-radius: 12px;
+.question p{font-weight:bold}
 
-  cursor: pointer;
+.option{display:block;padding:8px;margin:6px 0;background:#fff6fa;border-radius:9px;cursor:pointer}
 
-  font-size: 15px;
+.option input{width:auto;margin-right:8px}
 
-}
+.feedback{font-size:14px;margin-top:8px}
 
-.topic { background: #f1eaff; color: #35234d; }
+footer{text-align:center;padding:25px;color:#806d7a;font-size:13px}
 
-.topic.active, .pink { background: #f45d91; color: white; }
-
-.card { border: 1px solid #f5d8e5; padding: 15px; border-radius: 14px; margin-top: 12px; }
-
-.answer { background: #e2f8ed; padding: 12px; border-radius: 10px; line-height: 1.6; }
-
-.hidden { display: none; }
-
-.quiz button { margin: 5px 3px; }
-
-footer { text-align: center; color: #776b83; font-size: 13px; padding: 20px; }
-
-@media(max-width:480px) {
-
-  .topics { grid-template-columns: 1fr; }
-
-}
+@media(max-width:500px){main{padding:12px}.panel,.card{padding:15px}header{padding:28px 14px}}
 
 </style>
 
@@ -104,337 +88,405 @@ footer { text-align: center; color: #776b83; font-size: 13px; padding: 20px; }
 
   <h1>🌸 Mitos atau Fakta, Bun?</h1>
 
-  <p>Yuk, cari tahu kebenaran kesehatan kebidanan!</p>
+  <p>Yuk, kenali kebenaran kesehatan kebidanan!</p>
+
+  <p>💗 Belajar kesehatan perempuan dengan cara yang seru dan mudah.</p>
 
 </header>
 
 <main>
 
-  <section class="box">
+<section class="panel">
 
-    <h2>💗 Hai, Sobat Sehat!</h2>
+<h2>💌 Hai, Sobat Sehat!</h2>
 
-    <p>Pilih topik, baca pernyataannya, lalu klik tombol untuk mengetahui faktanya.</p>
+Pilih topik, baca pernyataan mitos atau faktanya, pelajari penjelasan dan tipsnya. Setelah itu, uji pemahamanmu lewat quiz khusus topik pilihanmu.
 
-  </section>
+</section>
 
-  <section class="box">
+<section class="panel">
 
-    <h2>📚 Pilih Topik</h2>
+<h2>📚 Pilih Topik</h2>
 
-    <div class="topics" id="topics"></div>
+<div id="topics" class="topics"></div>
 
-  </section>
+<input id="search" placeholder="🔎 Cari mitos, fakta, atau kata kunci...">
 
-  <section class="box">
+<div id="count" class="small"></div>
 
-    <h2 id="judul">Menstruasi 🩸</h2>
+</section>
 
-    <p id="deskripsi">Belajar fakta tentang menstruasi.</p>
+<section>
 
-    <div id="materi"></div>
+<h2 id="topicTitle">Materi Pilihan</h2>
 
-  </section>
+<div id="materials"></div>
 
-  <section class="box quiz">
+</section>
 
-    <h2>🎯 Mini Quiz</h2>
+<section class="panel">
 
-    <p id="pertanyaan"></p>
+<h2>🧠 Quiz Sesuai Topik</h2>
 
-    <div id="pilihan"></div>
+<p id="quizIntro">Jawab pertanyaan sesuai topik yang kamu pilih.</p>
 
-    <p id="hasil"></p>
+<div id="quizArea"></div>
 
-    <button class="pink" id="lanjut">Soal berikutnya →</button>
+<button class="action" id="checkQuiz">Periksa Jawaban & Lihat Skor</button>
 
-    <p id="skor">Skor: 0</p>
+<button class="topic" id="resetQuiz">Ulangi Quiz</button>
 
-  </section>
+<div id="score" aria-live="polite"></div>
+
+</section>
+
+<section class="panel">
+
+<h2>📖 Sumber Kesehatan Tepercaya</h2>
+
+<ul>
+
+<li><a href="https://www.who.int/health-topics/sexual-health" target="_blank" rel="noopener">WHO — Sexual health</a></li>
+
+<li><a href="https://www.who.int/health-topics/breastfeeding" target="_blank" rel="noopener">WHO — Breastfeeding</a></li>
+
+<li><a href="https://www.who.int/health-topics/anaemia" target="_blank" rel="noopener">WHO — Anaemia</a></li>
+
+<li><a href="https://www.who.int/health-topics/contraception" target="_blank" rel="noopener">WHO — Contraception</a></li>
+
+<li><a href="https://ayosehat.kemkes.go.id/" target="_blank" rel="noopener">Kementerian Kesehatan RI — Ayo Sehat</a></li>
+
+<li><a href="https://www.who.int/health-topics/maternal-health" target="_blank" rel="noopener">WHO — Maternal health</a></li>
+
+</ul>
+
+<p class="small">Materi ini untuk edukasi umum, bukan pengganti pemeriksaan tenaga kesehatan. Jika mengalami gejala yang mengkhawatirkan, konsultasikan ke bidan atau dokter.</p>
+
+</section>
 
 </main>
 
-<footer>
-
-  Media edukasi promosi kesehatan kebidanan 🌷<br>
-
-  Untuk edukasi umum. Konsultasikan masalah kesehatan kepada tenaga kesehatan.
-
-</footer>
+<footer>💗 Mitos atau Fakta, Bun? — Edukasi Promosi Kesehatan Kebidanan</footer>
 
 <script>
 
-const topik = [
+const topics=[
 
-{
+{id:"menstruasi",name:"Menstruasi",icon:"🩸"},
 
- nama:"🩸 Menstruasi",
+{id:"kehamilan",name:"Kehamilan",icon:"🤰"},
 
- deskripsi:"Kenali fakta seputar menstruasi.",
+{id:"asi",name:"ASI & Bayi",icon:"🍼"},
 
- materi:[
+{id:"gizi",name:"Gizi & Anemia",icon:"🍎"},
 
-  ["Tidak boleh keramas saat menstruasi.",
+{id:"reproduksi",name:"Kesehatan Reproduksi",icon:"🌷"},
 
-   "MITOS","Keramas saat menstruasi boleh dilakukan. Menjaga kebersihan tubuh tetap dianjurkan."],
+{id:"kontrasepsi",name:"Kontrasepsi",icon:"💊"},
 
-  ["Nyeri haid yang sangat hebat harus ditahan saja.",
+{id:"nifas",name:"Nifas & Pemulihan Ibu",icon:"🤱"},
 
-   "MITOS","Nyeri berat atau yang mengganggu aktivitas perlu diperiksa oleh tenaga kesehatan."]
-
- ]
-
-},
-
-{
-
- nama:"🤰 Kehamilan",
-
- deskripsi:"Kenali informasi kehamilan.",
-
- materi:[
-
-  ["Semua obat herbal pasti aman untuk ibu hamil.",
-
-   "MITOS","Herbal juga bisa memiliki efek samping. Konsultasikan penggunaannya dengan tenaga kesehatan."],
-
-  ["Ibu hamil tetap perlu pemeriksaan meskipun merasa sehat.",
-
-   "FAKTA","Pemeriksaan kehamilan membantu memantau kesehatan ibu dan janin."]
-
- ]
-
-},
-
-{
-
- nama:"🍼 ASI & Bayi",
-
- deskripsi:"Belajar fakta tentang ASI dan bayi.",
-
- materi:[
-
-  ["ASI pertama atau kolostrum harus dibuang.",
-
-   "MITOS","Kolostrum mengandung komponen pelindung dan dianjurkan diberikan kepada bayi."],
-
-  ["Bayi usia 0–6 bulan umumnya tidak memerlukan air putih tambahan.",
-
-   "FAKTA","ASI eksklusif dianjurkan selama enam bulan pertama, kecuali ada indikasi medis."]
-
- ]
-
-},
-
-{
-
- nama:"🍎 Gizi & Anemia",
-
- deskripsi:"Kenali cara mencegah anemia.",
-
- materi:[
-
-  ["Anemia hanya terjadi jika seseorang terlihat pucat.",
-
-   "MITOS","Anemia tidak selalu terlihat dari penampilan. Pemeriksaan hemoglobin membantu memastikan diagnosis."],
-
-  ["Teh dapat mengurangi penyerapan zat besi.",
-
-   "FAKTA","Teh dapat mengurangi penyerapan zat besi jika diminum berdekatan dengan makanan atau suplemen zat besi."]
-
- ]
-
-},
-
-{
-
- nama:"🛡️ Kontrasepsi",
-
- deskripsi:"Kenali informasi kontrasepsi.",
-
- materi:[
-
-  ["Semua metode kontrasepsi cocok untuk setiap orang.",
-
-   "MITOS","Pilihan kontrasepsi perlu disesuaikan dengan kondisi kesehatan dan kebutuhan masing-masing."],
-
-  ["Kondom dapat membantu mengurangi risiko infeksi menular seksual.",
-
-   "FAKTA","Penggunaan kondom secara benar dan konsisten membantu mengurangi risiko penularan."]
-
- ]
-
-}
+{id:"perempuan",name:"Kesehatan Perempuan",icon:"🌸"}
 
 ];
 
-const daftar = document.getElementById("topics");
+const sources={
 
-const materi = document.getElementById("materi");
+whoMen:"https://www.who.int/news-room/fact-sheets/detail/menstrual-health",
 
-function tampilTopik(index) {
+whoPreg:"https://www.who.int/health-topics/maternal-health",
 
- document.getElementById("judul").textContent = topik[index].nama;
+whoBaby:"https://www.who.int/health-topics/breastfeeding",
 
- document.getElementById("deskripsi").textContent = topik[index].deskripsi;
+whoAnaemia:"https://ayosehat.kemkes.go.id/buku-saku-pencegahan-anemia-pada-ibu-hamil-dan-remaja-putri",
 
- materi.innerHTML = "";
+whoSRH:"https://www.who.int/health-topics/sexual-health",
 
- topik[index].materi.forEach(item => {
+whoCon:"https://www.who.int/health-topics/contraception",
 
-  const kartu = document.createElement("div");
+whoPost:"https://www.who.int/health-topics/maternal-health",
 
-  kartu.className = "card";
-
-  const pernyataan = document.createElement("p");
-
-  pernyataan.textContent = "❓ " + item[0];
-
-  const tombol = document.createElement("button");
-
-  tombol.className = "pink";
-
-  tombol.textContent = "Lihat Fakta 💡";
-
-  const jawaban = document.createElement("div");
-
-  jawaban.className = "answer hidden";
-
-  jawaban.textContent = item[1] + ": " + item[2];
-
-  tombol.onclick = () => {
-
-   jawaban.classList.toggle("hidden");
-
-   tombol.textContent = jawaban.classList.contains("hidden")
-
-     ? "Lihat Fakta 💡" : "Tutup Penjelasan ↑";
-
-  };
-
-  kartu.append(pernyataan, tombol, jawaban);
-
-  materi.appendChild(kartu);
-
- });
-
- document.querySelectorAll(".topic").forEach((tombol,i) => {
-
-  tombol.classList.toggle("active",i === index);
-
- });
-
-}
-
-topik.forEach((item,index) => {
-
- const tombol = document.createElement("button");
-
- tombol.className = "topic";
-
- tombol.textContent = item.nama;
-
- tombol.onclick = () => tampilTopik(index);
-
- daftar.appendChild(tombol);
-
-});
-
-tampilTopik(0);
-
-const kuis = [
-
- {t:"Keramas saat menstruasi boleh dilakukan.",j:["Mitos","Fakta"],b:1,e:"Keramas saat menstruasi aman dilakukan."},
-
- {t:"Semua obat herbal pasti aman untuk ibu hamil.",j:["Mitos","Fakta"],b:0,e:"Produk herbal juga dapat memiliki efek samping."},
-
- {t:"Kolostrum dianjurkan diberikan kepada bayi.",j:["Mitos","Fakta"],b:1,e:"Kolostrum mengandung komponen pelindung."}
-
-];
-
-let nomor = 0;
-
-let nilai = 0;
-
-let sudahJawab = false;
-
-function tampilKuis() {
-
- sudahJawab = false;
-
- document.getElementById("hasil").textContent = "";
-
- document.getElementById("pertanyaan").textContent = kuis[nomor].t;
-
- const pilihan = document.getElementById("pilihan");
-
- pilihan.innerHTML = "";
-
- kuis[nomor].j.forEach((jawaban,index) => {
-
-  const tombol = document.createElement("button");
-
-  tombol.textContent = jawaban;
-
-  tombol.style.background = "#f1eaff";
-
-  tombol.onclick = () => {
-
-   if (sudahJawab) return;
-
-   sudahJawab = true;
-
-   if (index === kuis[nomor].b) {
-
-    nilai++;
-
-    document.getElementById("hasil").textContent = "🎉 Benar! " + kuis[nomor].e;
-
-   } else {
-
-    document.getElementById("hasil").textContent = "Belum tepat. " + kuis[nomor].e;
-
-   }
-
-   document.getElementById("skor").textContent = "Skor: " + nilai;
-
-  };
-
-  pilihan.appendChild(tombol);
-
- });
-
-}
-
-document.getElementById("lanjut").onclick = () => {
-
- if (!sudahJawab) {
-
-  document.getElementById("hasil").textContent = "Pilih jawaban dulu ya! 😊";
-
-  return;
-
- }
-
- nomor++;
-
- if (nomor >= kuis.length) {
-
-  alert("Kuis selesai! Skor kamu: " + nilai + " dari " + kuis.length);
-
-  nomor = 0;
-
-  nilai = 0;
-
-  document.getElementById("skor").textContent = "Skor: 0";
-
- }
-
- tampilKuis();
+whoGeneral:"https://ayosehat.kemkes.go.id/"
 
 };
 
-tampilKuis();
+// Setiap topik mempunyai lima materi mitos/fakta.
+
+const materials=[
+
+["menstruasi","Siklus harus 28 hari","Mitos","Siklus menstruasi tidak selalu tepat 28 hari. Panjang siklus dapat bervariasi antarorang dan antarbulan.","Catat tanggal haid. Periksakan diri jika perubahan sangat mengganggu, perdarahan berat, atau nyeri berat.","whoMen"],
+
+["menstruasi","Darah haid yang menggumpal selalu berbahaya","Mitos","Gumpalan kecil sesekali dapat terjadi. Gumpalan besar atau perdarahan sangat banyak perlu dinilai tenaga kesehatan.","Cari pertolongan jika harus mengganti pembalut tiap jam selama beberapa jam, pusing, atau lemas.","whoMen"],
+
+["menstruasi","Olahraga saat haid selalu dilarang","Mitos","Aktivitas fisik ringan atau sedang umumnya aman saat haid dan dapat membantu sebagian orang merasa lebih nyaman.","Sesuaikan intensitas dengan kondisi tubuh dan istirahat jika tidak nyaman.","whoMen"],
+
+["menstruasi","Nyeri haid berat harus selalu ditahan","Mitos","Nyeri yang berat sampai mengganggu kegiatan bukan sesuatu yang harus diabaikan; penyebab tertentu membutuhkan pemeriksaan.","Konsultasikan nyeri berat, nyeri baru, atau nyeri yang makin memburuk.","whoMen"],
+
+["menstruasi","Kebersihan area genital penting saat haid","Fakta","Mengganti pembalut secara teratur dan membersihkan area luar genital membantu menjaga kebersihan. Vagina tidak perlu dibersihkan bagian dalamnya.","Cuci tangan sebelum dan sesudah mengganti produk menstruasi; hindari pewangi yang mengiritasi.","whoMen"],
+
+["kehamilan","Ibu hamil harus makan dua kali lebih banyak","Mitos","Kehamilan membutuhkan gizi cukup dan seimbang, bukan menggandakan semua porsi makan. Kebutuhan berubah menurut tahap kehamilan dan kondisi ibu.","Pilih makanan beragam dan ikuti konseling gizi saat pemeriksaan antenatal.","whoPreg"],
+
+["kehamilan","Pemeriksaan kehamilan tetap penting meski tidak ada keluhan","Fakta","Pemeriksaan antenatal membantu memantau kesehatan ibu dan perkembangan janin serta mendeteksi masalah lebih awal.","Ikuti jadwal pemeriksaan yang dianjurkan bidan atau dokter.","whoPreg"],
+
+["kehamilan","Semua obat aman diminum saat hamil","Mitos","Sebagian obat dapat berisiko pada kehamilan. Keamanan tergantung jenis obat, dosis, dan usia kehamilan.","Konsultasikan obat, jamu, dan suplemen kepada tenaga kesehatan sebelum digunakan.","whoPreg"],
+
+["kehamilan","Perdarahan saat hamil perlu dinilai tenaga kesehatan","Fakta","Perdarahan saat hamil dapat memiliki berbagai penyebab dan tidak boleh dianggap normal tanpa penilaian.","Segera hubungi tenaga kesehatan; cari pertolongan darurat jika perdarahan banyak, nyeri berat, atau lemas.","whoPreg"],
+
+["kehamilan","Ibu hamil tidak boleh bergerak atau berolahraga sama sekali","Mitos","Pada kehamilan tanpa komplikasi, aktivitas fisik yang sesuai umumnya bermanfaat. Kondisi tertentu memerlukan arahan khusus.","Tanyakan jenis aktivitas yang aman sesuai kondisi kehamilanmu.","whoPreg"],
+
+["asi","Kolostrum atau ASI pertama harus dibuang","Mitos","Kolostrum kaya zat gizi dan komponen kekebalan, sehingga dianjurkan diberikan kepada bayi sejak awal bila memungkinkan.","Lakukan kontak kulit ke kulit dan minta bantuan tenaga kesehatan jika menyusui sulit.","whoBaby"],
+
+["asi","ASI eksklusif dianjurkan selama enam bulan pertama","Fakta","WHO merekomendasikan ASI eksklusif selama enam bulan pertama, kemudian makanan pendamping dengan melanjutkan menyusui.","Cari dukungan konselor laktasi bila ada masalah pelekatan atau produksi ASI.","whoBaby"],
+
+["asi","Bayi yang menangis pasti ASI ibu kurang","Mitos","Bayi menangis karena banyak sebab. Kecukupan ASI dinilai dari pola menyusu, pertumbuhan, dan keluaran urine, bukan tangisan saja.","Minta bidan menilai pelekatan, berat badan, dan tanda kecukupan ASI.","whoBaby"],
+
+["asi","Menyusui dapat membutuhkan bantuan dan latihan","Fakta","Pelekatan dan posisi menyusui dapat dipelajari. Nyeri terus-menerus atau bayi sulit menyusu perlu mendapat bantuan.","Cari bantuan bidan atau konselor laktasi sedini mungkin.","whoBaby"],
+
+["asi","Bayi baru lahir perlu diberi air putih meski mendapat ASI","Mitos","Bayi yang mendapat ASI eksklusif umumnya tidak memerlukan air putih tambahan pada enam bulan pertama, termasuk saat cuaca panas.","Susui sesuai kebutuhan bayi dan konsultasikan bila bayi menunjukkan tanda dehidrasi.","whoBaby"],
+
+["gizi","Anemia hanya terjadi pada orang yang kurus","Mitos","Anemia dapat dialami orang dengan berbagai bentuk tubuh. Kekurangan zat besi adalah salah satu penyebabnya, tetapi bukan satu-satunya.","Periksakan diri jika sering lelah, pucat, atau pusing; pemeriksaan darah membantu memastikan diagnosis.","whoAnaemia"],
+
+["gizi","Tablet tambah darah dapat dianjurkan untuk remaja putri dan ibu hamil","Fakta","Pemberian tablet tambah darah direkomendasikan dalam program kesehatan sesuai kelompok sasaran dan pedoman setempat.","Ikuti dosis serta petunjuk dari tenaga kesehatan dan program resmi.","whoAnaemia"],
+
+["gizi","Vitamin C membantu penyerapan zat besi dari makanan nabati","Fakta","Vitamin C dapat meningkatkan penyerapan zat besi non-heme dari makanan nabati.","Padukan sumber zat besi seperti kacang-kacangan dengan buah kaya vitamin C.","whoAnaemia"],
+
+["gizi","Minum teh bersamaan dengan makanan kaya zat besi selalu meningkatkan penyerapannya","Mitos","Senyawa dalam teh dapat mengurangi penyerapan zat besi non-heme jika diminum bersamaan dengan makanan.","Bila berisiko kekurangan zat besi, pertimbangkan memberi jarak antara teh dan waktu makan.","whoAnaemia"],
+
+["gizi","Pola makan beragam membantu memenuhi kebutuhan zat gizi","Fakta","Mengombinasikan sumber karbohidrat, protein, sayur, buah, dan sumber zat besi membantu memenuhi beragam kebutuhan gizi.","Utamakan makanan beragam dan konsultasikan kebutuhan khusus saat hamil.","whoAnaemia"],
+
+["reproduksi","Keputihan selalu menandakan penyakit","Mitos","Cairan vagina dapat normal dan berubah selama siklus. Bau menyengat, gatal, nyeri, atau perubahan warna perlu diperiksa.","Hindari produk pewangi dan periksakan keluhan yang menetap atau mengganggu.","whoSRH"],
+
+["reproduksi","Kondom dapat membantu mengurangi risiko infeksi menular seksual","Fakta","Penggunaan kondom yang benar dan konsisten mengurangi risiko banyak infeksi menular seksual, meski tidak menghilangkan semua risiko.","Gunakan kondom baru setiap kali berhubungan seksual dan ikuti petunjuk pemakaian.","whoSRH"],
+
+["reproduksi","Infeksi menular seksual selalu menimbulkan gejala","Mitos","Banyak infeksi menular seksual dapat tidak bergejala sehingga seseorang mungkin tidak menyadari infeksi.","Lakukan pemeriksaan sesuai risiko dan anjuran tenaga kesehatan.","whoSRH"],
+
+["reproduksi","Persetujuan dalam hubungan seksual harus diberikan secara sukarela","Fakta","Persetujuan harus diberikan tanpa paksaan dan dapat ditarik kapan saja.","Komunikasikan batasan dan cari bantuan jika mengalami kekerasan atau paksaan.","whoSRH"],
+
+["reproduksi","Membersihkan vagina bagian dalam dengan cairan pewangi diperlukan setiap hari","Mitos","Vagina memiliki mekanisme alami. Douching dan produk pewangi dapat mengganggu keseimbangan alami dan menyebabkan iritasi.","Bersihkan area luar genital dengan lembut; hindari memasukkan cairan pembersih ke vagina.","whoSRH"],
+
+["kontrasepsi","Pil KB pasti menyebabkan kemandulan permanen","Mitos","Pil kontrasepsi tidak diketahui menyebabkan kemandulan permanen. Kembalinya kesuburan dapat berbeda menurut metode dan individu.","Pilih metode berdasarkan kebutuhan dan konsultasikan efek samping kepada tenaga kesehatan.","whoCon"],
+
+["kontrasepsi","Kondom merupakan salah satu metode kontrasepsi yang membantu mencegah infeksi menular seksual","Fakta","Kondom membantu mencegah kehamilan dan mengurangi risiko banyak infeksi menular seksual bila digunakan benar.","Pastikan ukuran sesuai, belum kedaluwarsa, dan digunakan dari awal hingga akhir hubungan seksual.","whoCon"],
+
+["kontrasepsi","Semua metode kontrasepsi cocok untuk setiap orang","Mitos","Pilihan metode dipengaruhi kondisi kesehatan, preferensi, kebutuhan, dan kemungkinan efek samping.","Diskusikan pilihan yang tersedia dengan bidan atau dokter.","whoCon"],
+
+["kontrasepsi","Kontrasepsi darurat bukan metode untuk menggugurkan kehamilan yang sudah terbentuk","Fakta","Kontrasepsi darurat bekerja terutama dengan mencegah atau menunda ovulasi; metode ini bukan obat aborsi.","Gunakan sesegera mungkin sesuai petunjuk dan konsultasikan pilihan yang tersedia.","whoCon"],
+
+["kontrasepsi","IUD selalu berpindah ke seluruh tubuh","Mitos","IUD dipasang di dalam rahim. Perforasi rahim jarang terjadi, tetapi alat dapat bergeser atau keluar dan perlu evaluasi bila dicurigai.","Periksa sesuai jadwal dan konsultasikan jika benang berubah atau muncul nyeri berat.","whoCon"],
+
+["nifas","Perdarahan sangat banyak setelah melahirkan harus segera ditangani","Fakta","Perdarahan postpartum yang berlebihan dapat mengancam nyawa dan membutuhkan penanganan segera.","Cari pertolongan darurat jika darah mengalir banyak, pusing, pingsan, atau sangat lemas.","whoPost"],
+
+["nifas","Ibu nifas tidak boleh mandi sama sekali","Mitos","Kebersihan tubuh tetap penting setelah persalinan. Cara perawatan luka perlu disesuaikan dengan kondisi dan instruksi tenaga kesehatan.","Jaga area luka tetap bersih dan ikuti instruksi perawatan dari tenaga kesehatan.","whoPost"],
+
+["nifas","Kesehatan mental ibu setelah melahirkan perlu diperhatikan","Fakta","Perubahan emosi dapat terjadi, tetapi kesedihan atau kecemasan berat dan menetap perlu dukungan profesional.","Ceritakan keluhan kepada orang tepercaya dan tenaga kesehatan; cari bantuan segera bila ada risiko menyakiti diri atau bayi.","whoPost"],
+
+["nifas","Demam setelah melahirkan boleh diabaikan jika ibu sedang lelah","Mitos","Demam setelah persalinan dapat menjadi tanda infeksi atau masalah lain yang perlu dinilai.","Hubungi tenaga kesehatan segera, terutama jika disertai nyeri, cairan berbau, atau kondisi memburuk.","whoPost"],
+
+["nifas","Pemulihan pascapersalinan membutuhkan pemantauan dan dukungan","Fakta","Pemulihan meliputi kondisi fisik, menyusui, kesehatan mental, dan perencanaan keluarga.","Ikuti kunjungan nifas dan minta bantuan jika muncul keluhan atau kesulitan merawat diri.","whoPost"],
+
+["perempuan","Skrining kesehatan perlu disesuaikan dengan usia dan faktor risiko","Fakta","Jenis dan waktu skrining berbeda menurut usia, riwayat kesehatan, dan pedoman nasional.","Diskusikan jadwal skrining yang tepat dengan tenaga kesehatan.","whoGeneral"],
+
+["perempuan","Kanker serviks selalu menunjukkan gejala pada tahap awal","Mitos","Perubahan awal pada serviks sering tidak menimbulkan gejala, sehingga skrining sesuai pedoman penting.","Tanyakan tentang skrining kanker serviks dan vaksinasi HPV.","whoGeneral"],
+
+["perempuan","Vaksin HPV membantu mencegah sebagian besar kanker serviks yang disebabkan tipe HPV tertentu","Fakta","Vaksin HPV melindungi terhadap tipe virus utama penyebab kanker serviks, tetapi tidak menggantikan skrining.","Ikuti jadwal vaksinasi dan skrining yang direkomendasikan di wilayahmu.","whoGeneral"],
+
+["perempuan","Benjolan payudara selalu berarti kanker","Mitos","Benjolan payudara dapat disebabkan banyak kondisi, termasuk kondisi jinak. Benjolan baru tetap perlu dinilai.","Periksakan benjolan baru atau perubahan payudara kepada tenaga kesehatan.","whoGeneral"],
+
+["perempuan","Tidur, aktivitas fisik, dan gizi seimbang mendukung kesehatan secara umum","Fakta","Kebiasaan sehat membantu menjaga kesehatan fisik dan kesejahteraan, meski tidak menggantikan pemeriksaan atau pengobatan.","Pilih perubahan kecil yang realistis dan lakukan secara konsisten.","whoGeneral"]
+
+];
+
+// Tiga pertanyaan unik untuk setiap topik.
+
+const quizzes={
+
+menstruasi:[
+
+["Apakah semua siklus menstruasi harus tepat 28 hari?","Tidak, siklus dapat bervariasi.","Ya, semuanya harus 28 hari.",0],
+
+["Apa yang sebaiknya dilakukan jika nyeri haid sangat berat dan mengganggu aktivitas?","Mengabaikannya setiap bulan.","Berkonsultasi kepada tenaga kesehatan.","Minum obat apa saja tanpa petunjuk.",1],
+
+["Cara menjaga kebersihan saat menstruasi adalah...","Mengganti pembalut secara teratur dan mencuci tangan.","Membersihkan bagian dalam vagina dengan pewangi.","Tidak perlu mengganti pembalut seharian.",0]
+
+],
+
+kehamilan:[
+
+["Apa manfaat pemeriksaan kehamilan rutin?","Hanya untuk mengetahui jenis kelamin bayi.","Memantau ibu dan janin serta mendeteksi masalah.","Hanya diperlukan jika ibu sakit.",1],
+
+["Sebelum minum obat atau jamu saat hamil, sebaiknya...","Memastikan keamanan dengan tenaga kesehatan.","Mengikuti semua saran media sosial.","Menggandakan dosis agar cepat bekerja.",0],
+
+["Perdarahan saat hamil sebaiknya...","Dianggap selalu normal.","Ditangani sendiri tanpa konsultasi.","Dinilai segera oleh tenaga kesehatan.",2]
+
+],
+
+asi:[
+
+["Apa yang sebaiknya dilakukan dengan kolostrum?","Dibuang sebelum menyusui.","Diberikan kepada bayi bila memungkinkan.","Diganti dengan air putih.",1],
+
+["Berapa lama ASI eksklusif dianjurkan?","Enam bulan pertama.","Dua minggu saja.","Dua tahun tanpa makanan pendamping.",0],
+
+["Bayi menangis berarti ASI pasti kurang. Pernyataan ini...","Benar, tangisan selalu menandakan ASI kurang.","Tidak benar, tangisan memiliki banyak penyebab.","Benar jika bayi menangis malam hari.",1]
+
+],
+
+gizi:[
+
+["Apa yang membantu penyerapan zat besi dari makanan nabati?","Vitamin C.","Minum teh bersamaan dengan makanan.","Menghindari semua buah.",0],
+
+["Anemia hanya dialami orang bertubuh kurus. Pernyataan ini...","Benar.","Salah, anemia dapat dialami berbagai bentuk tubuh.","Benar hanya pada remaja.",1],
+
+["Apa langkah tepat bila sering lelah dan dicurigai anemia?","Minum suplemen dosis tinggi tanpa arahan.","Mengabaikan keluhan.","Konsultasi dan melakukan pemeriksaan sesuai anjuran.",2]
+
+],
+
+reproduksi:[
+
+["Apakah semua infeksi menular seksual selalu bergejala?","Ya, semuanya pasti bergejala.","Tidak, beberapa dapat tanpa gejala.","Hanya terjadi pada orang lanjut usia.",1],
+
+["Persetujuan dalam hubungan seksual harus...","Diberikan secara sukarela tanpa paksaan.","Diasumsikan dari hubungan sebelumnya.","Tidak dapat ditarik kembali.",0],
+
+["Cara yang membantu mengurangi risiko banyak infeksi menular seksual adalah...","Berbagi antibiotik.","Menggunakan pewangi vagina.","Menggunakan kondom secara benar dan konsisten.",2]
+
+],
+
+kontrasepsi:[
+
+["Apakah semua metode kontrasepsi cocok untuk semua orang?","Ya, tidak perlu mempertimbangkan kondisi kesehatan.","Tidak, pilihan disesuaikan dengan kebutuhan dan kondisi.","Hanya metode alami yang cocok untuk semua.",1],
+
+["Kondom dapat membantu...","Mengurangi risiko banyak infeksi menular seksual dan kehamilan.","Mencegah seluruh infeksi tanpa pengecualian.","Melindungi meski tidak digunakan saat berhubungan.",0],
+
+["Apa yang sebaiknya dilakukan saat memilih kontrasepsi?","Memilih berdasarkan iklan saja.","Menggunakan metode milik teman.","Berdiskusi dengan tenaga kesehatan.",2]
+
+],
+
+nifas:[
+
+["Perdarahan sangat banyak setelah melahirkan perlu...","Ditunggu sampai kunjungan rutin.","Pertolongan medis segera.","Diatasi hanya dengan istirahat.",1],
+
+["Demam setelah melahirkan sebaiknya...","Diabaikan sebagai kelelahan biasa.","Ditangani dengan obat sembarang.","Dikonsultasikan segera kepada tenaga kesehatan.",2],
+
+["Apa yang termasuk dalam pemulihan pascapersalinan?","Hanya kondisi fisik.","Kondisi fisik, mental, menyusui, dan dukungan.","Tidak perlu pemantauan setelah pulang.",1]
+
+],
+
+perempuan:[
+
+["Apakah benjolan payudara selalu berarti kanker?","Tidak, ada banyak kemungkinan penyebab, tetapi perlu diperiksa.","Ya, semua benjolan pasti kanker.","Tidak perlu diperiksa jika tidak nyeri.",0],
+
+["Vaksin HPV berguna untuk...","Mengobati semua infeksi yang sudah ada.","Menggantikan seluruh skrining serviks.","Mencegah infeksi tipe HPV tertentu penyebab kanker.",2],
+
+["Skrining kesehatan sebaiknya ditentukan berdasarkan...","Usia, riwayat, faktor risiko, dan pedoman.","Saran teman saja.","Gejala berat saja.",0]
+
+]
+
+};
+
+let current="gizi";
+
+const topicsEl=document.getElementById("topics");
+
+const materialsEl=document.getElementById("materials");
+
+const searchEl=document.getElementById("search");
+
+function renderTopics(){
+
+topicsEl.innerHTML=topics.map(t=><button class="topic ${t.id===current?"active":""}" data-topic="${t.id}">${t.icon} ${t.name}</button>).join("");
+
+topicsEl.querySelectorAll("button").forEach(b=>b.addEventListener("click",()=>{current=b.dataset.topic;renderTopics();renderMaterials();renderQuiz();}));
+
+}
+
+function renderMaterials(){
+
+const topic=topics.find(t=>t.id===current);
+
+document.getElementById("topicTitle").textContent=topic.icon+" "+topic.name;
+
+const query=searchEl.value.trim().toLowerCase();
+
+const rows=materials.filter(m=>m[0]===current&&m.slice(1,5).join(" ").toLowerCase().includes(query));
+
+document.getElementById("count").textContent=Menampilkan ${rows.length} dari 5 materi untuk topik ini.;
+
+materialsEl.innerHTML=rows.length?rows.map((m,i)=>`
+
+<article class="card">
+
+<div class="meta"><span class="tag ${m[2]==="Fakta"?"fact":""}">${m[2]}</span><span class="small">Materi ${i+1}</span></div>
+
+<h3>${m[1]}</h3>
+
+<p><strong>${m[2]==="Fakta"?"Faktanya:":"Mengapa ini mitos:"}</strong> ${m[3]}</p>
+
+<details><summary>💡 Tips kesehatan & sumber</summary>
+
+<p>${m[4]}</p>
+
+<p class="small">Sumber: <a href="${sources[m[5]]}" target="_blank" rel="noopener">Baca referensi kesehatan</a></p>
+
+</details>
+
+</article>).join(""):<div class="card">Tidak ada materi yang cocok dengan pencarianmu. Coba kata kunci lain ya!</div>`;
+
+}
+
+function renderQuiz(){
+
+const qs=quizzes[current];
+
+document.getElementById("quizIntro").textContent=Quiz ${topics.find(t=>t.id===current).name}: ${qs.length} pertanyaan khusus topik ini.;
+
+document.getElementById("score").textContent="";
+
+document.getElementById("quizArea").innerHTML=qs.map((q,i)=>`
+
+<div class="question" data-q="${i}">
+
+<p>${i+1}. ${q[0]}</p>
+
+${q.slice(1,4).map((opt,j)=><label class="option"><input type="radio" name="q${i}" value="${j}"> ${opt}</label>).join("")}
+
+<div class="feedback" hidden></div>
+
+</div>`).join("");
+
+}
+
+document.getElementById("checkQuiz").addEventListener("click",()=>{
+
+const qs=quizzes[current];let score=0,answered=0;
+
+qs.forEach((q,i)=>{
+
+const box=document.querySelector([data-q="${i}"]);
+
+const picked=box.querySelector(input[name="q${i}"]:checked);
+
+const fb=box.querySelector(".feedback");fb.hidden=false;
+
+if(!picked){fb.textContent="Pilih jawaban terlebih dahulu.";fb.style.color="#93617b";return;}
+
+answered++;
+
+const ok=Number(picked.value)===q[3];if(ok)score++;
+
+fb.textContent=(ok?"✅ Benar! ":"💡 Belum tepat. ")+q[q.length-1];
+
+fb.style.color=ok?"#247344":"#a32860";
+
+});
+
+document.getElementById("score").innerHTML=<h3>Skor kamu: ${score}/${qs.length}</h3><p>${answered<qs.length?"Jawab pertanyaan yang belum dipilih, lalu periksa lagi.":score===qs.length?"Hebat! Kamu menjawab semuanya dengan benar!":"Semangat belajar lagi ya. Baca materi topik ini lalu coba ulangi quiz."}</p>;
+
+});
+
+document.getElementById("resetQuiz").addEventListener("click",renderQuiz);
+
+searchEl.addEventListener("input",renderMaterials);
+
+renderTopics();renderMaterials();renderQuiz();
 
 </script>
 
