@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+
+<html lang="id">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Mitos atau Fakta, Bun?</title>
+
+<style>
+
+* { box-sizing: border-box; }
+
+body {
+
+  margin: 0;
+
+  font-family: Arial, sans-serif;
+
+  background: #fff1f6;
+
+  color: #35234d;
+
+}
+
+header {
+
+  background: linear-gradient(135deg,#f45d91,#dca9ff);
+
+  color: white;
+
+  text-align: center;
+
+  padding: 30px 15px;
+
+  border-radius: 0 0 25px 25px;
+
+}
+
+header h1 { margin-bottom: 8px; }
+
+main { max-width: 800px; margin: 25px auto; padding: 0 15px; }
+
+.box {
+
+  background: white;
+
+  border-radius: 18px;
+
+  padding: 20px;
+
+  margin-bottom: 18px;
+
+  box-shadow: 0 5px 18px #d9a8c533;
+
+}
+
+.topics { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+
+button {
+
+  border: none;
+
+  padding: 13px;
+
+  border-radius: 12px;
+
+  cursor: pointer;
+
+  font-size: 15px;
+
+}
+
+.topic { background: #f1eaff; color: #35234d; }
+
+.topic.active, .pink { background: #f45d91; color: white; }
+
+.card { border: 1px solid #f5d8e5; padding: 15px; border-radius: 14px; margin-top: 12px; }
+
+.answer { background: #e2f8ed; padding: 12px; border-radius: 10px; line-height: 1.6; }
+
+.hidden { display: none; }
+
+.quiz button { margin: 5px 3px; }
+
+footer { text-align: center; color: #776b83; font-size: 13px; padding: 20px; }
+
+@media(max-width:480px) {
+
+  .topics { grid-template-columns: 1fr; }
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<header>
+
+  <h1>🌸 Mitos atau Fakta, Bun?</h1>
+
+  <p>Yuk, cari tahu kebenaran kesehatan kebidanan!</p>
+
+</header>
+
+<main>
+
+  <section class="box">
+
+    <h2>💗 Hai, Sobat Sehat!</h2>
+
+    <p>Pilih topik, baca pernyataannya, lalu klik tombol untuk mengetahui faktanya.</p>
+
+  </section>
+
+  <section class="box">
+
+    <h2>📚 Pilih Topik</h2>
+
+    <div class="topics" id="topics"></div>
+
+  </section>
+
+  <section class="box">
+
+    <h2 id="judul">Menstruasi 🩸</h2>
+
+    <p id="deskripsi">Belajar fakta tentang menstruasi.</p>
+
+    <div id="materi"></div>
+
+  </section>
+
+  <section class="box quiz">
+
+    <h2>🎯 Mini Quiz</h2>
+
+    <p id="pertanyaan"></p>
+
+    <div id="pilihan"></div>
+
+    <p id="hasil"></p>
+
+    <button class="pink" id="lanjut">Soal berikutnya →</button>
+
+    <p id="skor">Skor: 0</p>
+
+  </section>
+
+</main>
+
+<footer>
+
+  Media edukasi promosi kesehatan kebidanan 🌷<br>
+
+  Untuk edukasi umum. Konsultasikan masalah kesehatan kepada tenaga kesehatan.
+
+</footer>
+
+<script>
+
+const topik = [
+
+{
+
+ nama:"🩸 Menstruasi",
+
+ deskripsi:"Kenali fakta seputar menstruasi.",
+
+ materi:[
+
+  ["Tidak boleh keramas saat menstruasi.",
+
+   "MITOS","Keramas saat menstruasi boleh dilakukan. Menjaga kebersihan tubuh tetap dianjurkan."],
+
+  ["Nyeri haid yang sangat hebat harus ditahan saja.",
+
+   "MITOS","Nyeri berat atau yang mengganggu aktivitas perlu diperiksa oleh tenaga kesehatan."]
+
+ ]
+
+},
+
+{
+
+ nama:"🤰 Kehamilan",
+
+ deskripsi:"Kenali informasi kehamilan.",
+
+ materi:[
+
+  ["Semua obat herbal pasti aman untuk ibu hamil.",
+
+   "MITOS","Herbal juga bisa memiliki efek samping. Konsultasikan penggunaannya dengan tenaga kesehatan."],
+
+  ["Ibu hamil tetap perlu pemeriksaan meskipun merasa sehat.",
+
+   "FAKTA","Pemeriksaan kehamilan membantu memantau kesehatan ibu dan janin."]
+
+ ]
+
+},
+
+{
+
+ nama:"🍼 ASI & Bayi",
+
+ deskripsi:"Belajar fakta tentang ASI dan bayi.",
+
+ materi:[
+
+  ["ASI pertama atau kolostrum harus dibuang.",
+
+   "MITOS","Kolostrum mengandung komponen pelindung dan dianjurkan diberikan kepada bayi."],
+
+  ["Bayi usia 0–6 bulan umumnya tidak memerlukan air putih tambahan.",
+
+   "FAKTA","ASI eksklusif dianjurkan selama enam bulan pertama, kecuali ada indikasi medis."]
+
+ ]
+
+},
+
+{
+
+ nama:"🍎 Gizi & Anemia",
+
+ deskripsi:"Kenali cara mencegah anemia.",
+
+ materi:[
+
+  ["Anemia hanya terjadi jika seseorang terlihat pucat.",
+
+   "MITOS","Anemia tidak selalu terlihat dari penampilan. Pemeriksaan hemoglobin membantu memastikan diagnosis."],
+
+  ["Teh dapat mengurangi penyerapan zat besi.",
+
+   "FAKTA","Teh dapat mengurangi penyerapan zat besi jika diminum berdekatan dengan makanan atau suplemen zat besi."]
+
+ ]
+
+},
+
+{
+
+ nama:"🛡️ Kontrasepsi",
+
+ deskripsi:"Kenali informasi kontrasepsi.",
+
+ materi:[
+
+  ["Semua metode kontrasepsi cocok untuk setiap orang.",
+
+   "MITOS","Pilihan kontrasepsi perlu disesuaikan dengan kondisi kesehatan dan kebutuhan masing-masing."],
+
+  ["Kondom dapat membantu mengurangi risiko infeksi menular seksual.",
+
+   "FAKTA","Penggunaan kondom secara benar dan konsisten membantu mengurangi risiko penularan."]
+
+ ]
+
+}
+
+];
+
+const daftar = document.getElementById("topics");
+
+const materi = document.getElementById("materi");
+
+function tampilTopik(index) {
+
+ document.getElementById("judul").textContent = topik[index].nama;
+
+ document.getElementById("deskripsi").textContent = topik[index].deskripsi;
+
+ materi.innerHTML = "";
+
+ topik[index].materi.forEach(item => {
+
+  const kartu = document.createElement("div");
+
+  kartu.className = "card";
+
+  const pernyataan = document.createElement("p");
+
+  pernyataan.textContent = "❓ " + item[0];
+
+  const tombol = document.createElement("button");
+
+  tombol.className = "pink";
+
+  tombol.textContent = "Lihat Fakta 💡";
+
+  const jawaban = document.createElement("div");
+
+  jawaban.className = "answer hidden";
+
+  jawaban.textContent = item[1] + ": " + item[2];
+
+  tombol.onclick = () => {
+
+   jawaban.classList.toggle("hidden");
+
+   tombol.textContent = jawaban.classList.contains("hidden")
+
+     ? "Lihat Fakta 💡" : "Tutup Penjelasan ↑";
+
+  };
+
+  kartu.append(pernyataan, tombol, jawaban);
+
+  materi.appendChild(kartu);
+
+ });
+
+ document.querySelectorAll(".topic").forEach((tombol,i) => {
+
+  tombol.classList.toggle("active",i === index);
+
+ });
+
+}
+
+topik.forEach((item,index) => {
+
+ const tombol = document.createElement("button");
+
+ tombol.className = "topic";
+
+ tombol.textContent = item.nama;
+
+ tombol.onclick = () => tampilTopik(index);
+
+ daftar.appendChild(tombol);
+
+});
+
+tampilTopik(0);
+
+const kuis = [
+
+ {t:"Keramas saat menstruasi boleh dilakukan.",j:["Mitos","Fakta"],b:1,e:"Keramas saat menstruasi aman dilakukan."},
+
+ {t:"Semua obat herbal pasti aman untuk ibu hamil.",j:["Mitos","Fakta"],b:0,e:"Produk herbal juga dapat memiliki efek samping."},
+
+ {t:"Kolostrum dianjurkan diberikan kepada bayi.",j:["Mitos","Fakta"],b:1,e:"Kolostrum mengandung komponen pelindung."}
+
+];
+
+let nomor = 0;
+
+let nilai = 0;
+
+let sudahJawab = false;
+
+function tampilKuis() {
+
+ sudahJawab = false;
+
+ document.getElementById("hasil").textContent = "";
+
+ document.getElementById("pertanyaan").textContent = kuis[nomor].t;
+
+ const pilihan = document.getElementById("pilihan");
+
+ pilihan.innerHTML = "";
+
+ kuis[nomor].j.forEach((jawaban,index) => {
+
+  const tombol = document.createElement("button");
+
+  tombol.textContent = jawaban;
+
+  tombol.style.background = "#f1eaff";
+
+  tombol.onclick = () => {
+
+   if (sudahJawab) return;
+
+   sudahJawab = true;
+
+   if (index === kuis[nomor].b) {
+
+    nilai++;
+
+    document.getElementById("hasil").textContent = "🎉 Benar! " + kuis[nomor].e;
+
+   } else {
+
+    document.getElementById("hasil").textContent = "Belum tepat. " + kuis[nomor].e;
+
+   }
+
+   document.getElementById("skor").textContent = "Skor: " + nilai;
+
+  };
+
+  pilihan.appendChild(tombol);
+
+ });
+
+}
+
+document.getElementById("lanjut").onclick = () => {
+
+ if (!sudahJawab) {
+
+  document.getElementById("hasil").textContent = "Pilih jawaban dulu ya! 😊";
+
+  return;
+
+ }
+
+ nomor++;
+
+ if (nomor >= kuis.length) {
+
+  alert("Kuis selesai! Skor kamu: " + nilai + " dari " + kuis.length);
+
+  nomor = 0;
+
+  nilai = 0;
+
+  document.getElementById("skor").textContent = "Skor: 0";
+
+ }
+
+ tampilKuis();
+
+};
+
+tampilKuis();
+
+</script>
+
+</body>
+
+</html>
